@@ -18,7 +18,6 @@ def print_rules(key):
                 '7 - сохранить текущую версию\n' \
                 '8 - вернуться назад\n' \
                 '0 - закрыть базу данных\n'
-
     print(rules)
 
 
@@ -61,10 +60,11 @@ while 1:
             elif n == 8:
                 base.back_up()
             elif n == 0:
+                base.save()
                 break
             else:
                 print('неизвестная команда')
-    if n == 3:
+    elif n == 3:
         break
     else:
         print('неизвестная команда')

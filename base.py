@@ -1,54 +1,47 @@
 import os
 import random
 import os.path
-import atexit
 from distutils.dir_util import copy_tree
 
 
 class Database:
     def __init__(self, folder):
+        self.copy, self.testing_table_txt, self.variants_txt, self.student_txt = None, None, None, None
         self.student_id = 1
+        self.ver = folder
+        self.version_txt = ''
         if not os.path.exists(folder):
             os.mkdir(folder)
         if not os.path.exists(folder + '\\' + 'version.txt'):
             f = open(folder + '\\' + 'version.txt', 'a+')
-            f.write('0 0')
+            f.write('0')
             f.close()
             os.mkdir(folder + '\\' + '0')
             self.version = 1
             os.mkdir(folder + '\\' + '1')
-            self.version_max = 1
-
-            self.student_txt = folder + '\\' + str(self.version) + '\\' + 'students.txt'
-            self.variants_txt = folder + '\\' + str(self.version) + '\\' + 'variants.txt'
-            self.testing_table_txt = folder + '\\' + str(self.version) + '\\' + 'testing_table.txt'
-            self.copy = folder + '\\' + str(self.version) + '\\' + 'copy.txt'
-
+            self.change_version()
             self.update()
             self.add_from()
             self.variants()
         else:
             f = open(folder + '\\' + 'version.txt', 'r')
             self.version = f.readline()
-            self.version, self.version_max = self.version.split(' ')
-            self.version = int(self.version) + 1
-            self.version_max = int(self.version_max)
+            self.version = int(self.version)
             f.close()
             os.mkdir(folder + '\\' + str(self.version))
             copy_tree(folder + '\\' + str(self.version - 1), folder + '\\' + str(self.version))
-            self.student_txt = folder + '\\' + str(self.version) + '\\' + 'students.txt'
-            self.variants_txt = folder + '\\' + str(self.version) + '\\' + 'variants.txt'
-            self.testing_table_txt = folder + '\\' + str(self.version) + '\\' + 'testing_table.txt'
-            self.copy = folder + '\\' + str(self.version) + '\\' + 'copy.txt'
+            self.change_version()
             self.update()
             if not os.path.exists(folder + '\\' + str(self.version) + '\\' + 'students.txt'):
-                self.update()
                 self.add_from()
                 self.variants()
 
-        self.version_txt = folder + '\\' + str(self.version)
-        self.ver = folder
-        # atexit.register(self.at_exit())
+    def change_version(self):
+        self.student_txt = self.ver + '\\' + str(self.version) + '\\' + 'students.txt'
+        self.variants_txt = self.ver + '\\' + str(self.version) + '\\' + 'variants.txt'
+        self.testing_table_txt = self.ver + '\\' + str(self.version) + '\\' + 'testing_table.txt'
+        self.copy = self.ver + '\\' + str(self.version) + '\\' + 'copy.txt'
+        self.version_txt = self.ver + '\\' + str(self.version)
 
     # past id from students.txt
     def update(self):
@@ -136,7 +129,6 @@ class Database:
         while 1:
             s = file.readline()
             if not s:
-                print('not found')
                 break
             if int(s.split(' ', 1)[0]) != student_id:
                 file_new.write(s)
@@ -152,7 +144,6 @@ class Database:
         while 1:
             s = file.readline()
             if not s:
-                print('not found')
                 break
             if int(s.split(' ', 1)[0]) != student_id:
                 file_new.write(s)
@@ -245,23 +236,12 @@ class Database:
     def save(self):
         os.remove(self.ver + '\\' + 'version.txt')
         f = open(self.ver + '\\' + 'version.txt', 'a+')
-        f.write(str(self.version) + ' ' + str(self.version_max))
+        f.write(str(self.version))
         f.close()
         self.version += 1
         os.mkdir(self.ver + '\\' + str(self.version))
         copy_tree(self.ver + '\\' + str(self.version - 1), self.ver + '\\' + str(self.version))
-
-        self.student_txt = self.ver + '\\' + str(self.version) + '\\' + 'students.txt'
-        self.variants_txt = self.ver + '\\' + str(self.version) + '\\' + 'variants.txt'
-        self.testing_table_txt = self.ver + '\\' + str(self.version) + '\\' + 'testing_table.txt'
-        self.copy = self.ver + '\\' + str(self.version) + '\\' + 'copy.txt'
-
-    def change_version(self):
-        self.student_txt = self.ver + '\\' + str(self.version) + '\\' + 'students.txt'
-        self.variants_txt = self.ver + '\\' + str(self.version) + '\\' + 'variants.txt'
-        self.testing_table_txt = self.ver + '\\' + str(self.version) + '\\' + 'testing_table.txt'
-        self.copy = self.ver + '\\' + str(self.version) + '\\' + 'copy.txt'
-        self.version_txt = self.ver + '\\' + str(self.version)
+        self.change_version()
 
     def back_up(self):
         if self.version - 1 >= 0:
@@ -270,11 +250,10 @@ class Database:
             os.remove(self.testing_table_txt)
             os.rmdir(os.path.join(self.version_txt))
             self.version -= 1
-
-            self.student_txt = self.ver + '\\' + str(self.version) + '\\' + 'students.txt'
-            self.variants_txt = self.ver + '\\' + str(self.version) + '\\' + 'variants.txt'
-            self.testing_table_txt = self.ver + '\\' + str(self.version) + '\\' + 'testing_table.txt'
-            self.copy = self.ver + '\\' + str(self.version) + '\\' + 'copy.txt'
-            self.version_txt = self.ver + '\\' + str(self.version)
+            os.remove(self.ver + '\\' + 'version.txt')
+            f = open(self.ver + '\\' + 'version.txt', 'a+')
+            f.write(str(self.version))
+            f.close()
+            self.change_version()
         else:
-            print('база данных удалена!')
+            print('база данных очищена!')
