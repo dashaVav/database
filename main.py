@@ -35,12 +35,16 @@ class Database:
             f.close()
             os.mkdir(folder + '\\' + str(self.version))
             copy_tree(folder + '\\' + str(self.version - 1),folder + '\\' + str(self.version))
-
             self.student_txt = folder + '\\' + str(self.version) + '\\' + 'students.txt'
             self.variants_txt = folder + '\\' + str(self.version) + '\\' + 'variants.txt'
             self.testing_table_txt = folder + '\\' + str(self.version) + '\\' + 'testing_table.txt'
             self.copy = folder + '\\' + str(self.version) + '\\' + 'copy.txt'
             self.update()
+            if not os.path.exists(folder + '\\' + str(self.version) + '\\' + 'students.txt'):
+                self.update()
+                self.add_from()
+                self.variants()
+
 
 
         self.version_txt = folder + '\\' + str(self.version)
@@ -249,6 +253,11 @@ class Database:
         n = input('<- or ->\n')
         if n == '<-':
             if self.version - 1 >= 0:
+                os.remove(self.student_txt)
+                os.remove(self.variants_txt)
+                os.remove(self.testing_table_txt)
+                os.rmdir(os.path.join(self.version_txt))
+
                 self.version -= 1
 
                 self.student_txt = self.ver + '\\' + str(self.version) + '\\' + 'students.txt'
@@ -256,29 +265,32 @@ class Database:
                 self.testing_table_txt = self.ver + '\\' + str(self.version) + '\\' + 'testing_table.txt'
                 self.copy = self.ver + '\\' + str(self.version) + '\\' + 'copy.txt'
                 self.version_txt = self.ver + '\\' + str(self.version)
+
             else:
                 print('no')
-        elif n == '->':
-            if self.version + 1 <= self.version_max:
-                self.version += 1
-                self.student_txt = self.ver + '\\' + str(self.version) + '\\' + 'students.txt'
-                self.variants_txt = self.ver + '\\' + str(self.version) + '\\' + 'variants.txt'
-                self.testing_table_txt = self.ver + '\\' + str(self.version) + '\\' + 'testing_table.txt'
-                self.copy = self.ver + '\\' + str(self.version) + '\\' + 'copy.txt'
-                self.version_txt = self.ver + '\\' + str(self.version)
-            else:
-                print('no')
+        # elif n == '->':
+        #     if self.version + 1 < self.version_max:
+        #         self.version += 1
+        #         self.student_txt = self.ver + '\\' + str(self.version) + '\\' + 'students.txt'
+        #         self.variants_txt = self.ver + '\\' + str(self.version) + '\\' + 'variants.txt'
+        #         self.testing_table_txt = self.ver + '\\' + str(self.version) + '\\' + 'testing_table.txt'
+        #         self.copy = self.ver + '\\' + str(self.version) + '\\' + 'copy.txt'
+        #         self.version_txt = self.ver + '\\' + str(self.version)
+        #     else:
+        #         print('no')
 
 base = Database('hse_students_math')
-base.print_if_via_name('Вавилова', 'Дарья', 'Григорьевна')
+# base.print_if_via_name('Вавилова', 'Дарья', 'Григорьевна')
 
-base.variants()
+# base.variants()
 # base.print_id(5)
 # base.add('kk', 'll', 'll')
-base.add('kk8989', 'll', 'll1')
+# base.add('kk8989', 'll', 'll1')
 # base.testing_table()
 # base.remove(8)
 # base.edit(12, 'Борисоjjjва', 'Елизаветnа',  'Юрьевнkkа')
 base.print_table()
 # base.print_id(89)
+base.back_up()
+base.back_up()
 
