@@ -16,6 +16,7 @@ def print_rules(key):
                 '5 - отредактировать фио человека с id\n' \
                 '6 - вывести базу данных\n' \
                 '7 - сохранить текущую версию\n' \
+                '8 - вернуться назад\n' \
                 '0 - закрыть базу данных\n'
 
     print(rules)
@@ -55,38 +56,15 @@ while 1:
                 base.edit(id_, surname, name, patronymic)
             elif n == 6:
                 base.print_table()
+            elif n == 7:
+                base.save()
+            elif n == 8:
+                base.back_up()
+            elif n == 0:
+                break
             else:
                 print('неизвестная команда')
-
     if n == 3:
         break
     else:
         print('неизвестная команда')
-
-
-
-
-
-
-
-
-
-
-
-# base1 = Database('hse_students_math')
-
-# print_rules()
-# base.print_if_via_name('Вавилова', 'Дарья', 'Григорьевна')
-
-# base.variants()
-# base.print_id(5)
-# base.add('kk', 'll', 'll')
-# base.add('kk8989', 'll', 'll1')
-# base.testing_table()
-# base.remove(8)
-# base.edit(12, 'Борисоjjjва', 'Елизаветnа',  'Юрьевнkkа')
-# base1.print_table()
-# base.print_id(89)
-# base1.back_up()
-# base1.back_up()
-
