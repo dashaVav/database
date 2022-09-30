@@ -14,7 +14,7 @@ class Database:
             os.mkdir(folder)
         if not os.path.exists(folder + '\\' + 'version.txt'):
             f = open(folder + '\\' + 'version.txt', 'a+')
-            f.write('0')
+            f.write('1')
             f.close()
             os.mkdir(folder + '\\' + '0')
             self.version = 1
@@ -26,7 +26,11 @@ class Database:
         else:
             f = open(folder + '\\' + 'version.txt', 'r')
             self.version = f.readline()
-            self.version = int(self.version)
+            self.version = int(self.version) + 1
+            f.close()
+            os.remove(self.ver + '\\' + 'version.txt')
+            f = open(self.ver + '\\' + 'version.txt', 'a+')
+            f.write(str(self.version))
             f.close()
             os.mkdir(folder + '\\' + str(self.version))
             copy_tree(folder + '\\' + str(self.version - 1), folder + '\\' + str(self.version))

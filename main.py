@@ -60,7 +60,6 @@ while 1:
             elif n == 8:
                 base.back_up()
             elif n == 0:
-                base.save()
                 break
             else:
                 print('неизвестная команда')
