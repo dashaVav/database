@@ -267,3 +267,35 @@ class Database:
             self.change_version()
         else:
             print('база данных очищена!')
+
+    def name_variant(self, student_id):
+        f_ = 0
+        file = open(self.student_txt, 'r')
+        while 1:
+            s = file.readline()
+            if not s: break
+            if int(s.split(' ', 1)[0]) == student_id:
+                f_ = 1
+                name = s.split(' ', 1)[1]
+                break
+        file.close()
+        if f_ == 0:
+            print('нет человека с id -', student_id, '\n')
+            return 0
+        file = open(self.testing_table_txt, 'r')
+        while 1:
+            s = file.readline()
+            if not s: break
+            if int(s.split(' ', 1)[0]) == student_id:
+                id_var = int(s.split(' ', 1)[0])
+                break
+        file.close()
+
+        file = open(self.variants_txt, 'r')
+        while 1:
+            s = file.readline()
+            if not s: break
+            if int(s.split(' ', 1)[0]) == id_var:
+                var = s.split(' ', 1)[1]
+        file.close()
+        print(name.replace('\n', ' '), var, '\n')

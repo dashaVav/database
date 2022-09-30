@@ -17,6 +17,7 @@ def print_rules(key):
                 '6 - вывести базу данных\n' \
                 '7 - сохранить текущую версию\n' \
                 '8 - вернуться назад\n' \
+                '9 - вывести имя и вариант человека с указанным id\n' \
                 '0 - закрыть базу данных\n'
     print(rules)
 
@@ -26,7 +27,7 @@ def run():
         print_rules(0)
         n = input()
         n = n.replace(' ', '')
-        if str(n) not in '120':
+        if str(n) not in '120' or not n:
             print('неизвестная команда\n')
             continue
         else:
@@ -38,7 +39,7 @@ def run():
                 print_rules(1)
                 n = input()
                 n = n.replace(' ', '')
-                if str(n) not in '012345678':
+                if str(n) not in '0123456789' or not n:
                     print('неизвестная команда\n')
                     continue
                 else:
@@ -102,6 +103,13 @@ def run():
                 elif n == 8:
                     base.back_up()
 
+                elif n == 9:
+                    try:
+                        id_ = int(input('введите id: '))
+                    except:
+                        print('неправильно введено id\n')
+                        continue
+                    base.name_variant(id_)
                 elif n == 0:
                     break
                 else:
