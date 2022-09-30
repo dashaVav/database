@@ -287,10 +287,9 @@ class Database:
             s = file.readline()
             if not s: break
             if int(s.split(' ', 1)[0]) == student_id:
-                id_var = int(s.split(' ', 1)[0])
+                id_var = int(s.split(' ', 1)[1])
                 break
         file.close()
-
         file = open(self.variants_txt, 'r')
         while 1:
             s = file.readline()
