@@ -174,17 +174,18 @@ class Database:
 
     # edit students with id
     def edit(self, student_id, name, surname, patronymic):
-        f = 0
+        f_ = 0
         with open(self.student_txt, 'r') as f:
             s = f.readlines()
         for i in s:
             i = i.replace('\n', '')
             id_st, name_, surname_, patronymic_ = i.split(' ')
-            if student_id == id_st: f = 1
+            if student_id == int(id_st):
+                f_ = 1
             if name_ == name and surname_ == surname and patronymic_ == patronymic:
-                print('невозможно отредактировать!\n')
+                print('невозможно отредактировать - человек с таким именем уже есть!\n')
                 return 0
-        if f == 0:
+        if f_ != 1:
             print('нет человека с id -', student_id, '!\n')
             return 0
 
@@ -250,6 +251,7 @@ class Database:
         f = open(self.ver + '\\' + 'version.txt', 'a+')
         f.write(str(self.version))
         f.close()
+        print('текущие изменеия сохранены\n')
 
     def back_up(self):
         if self.version - 1 >= 0:

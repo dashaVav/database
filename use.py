@@ -27,7 +27,7 @@ def run():
         n = input()
         n = n.replace(' ', '')
         if str(n) not in '120':
-            print('неизвестная команда')
+            print('неизвестная команда\n')
             continue
         else:
             n = int(n)
@@ -39,44 +39,74 @@ def run():
                 n = input()
                 n = n.replace(' ', '')
                 if str(n) not in '012345678':
-                    print('неизвестная команда')
+                    print('неизвестная команда\n')
                     continue
                 else:
                     n = int(n)
+
                 if n == 1:
-                    surname = input('введите фамилию: ')
-                    name = input('введите имя: ')
-                    patronymic = input('введите отчество: ')
-                    base.add(surname, name, patronymic)
+                    surname = input('введите фамилию: ').replace(' ', '')
+                    name = (input('введите имя: ')).replace(' ', '')
+                    patronymic = input('введите отчество: ').replace(' ', '')
+                    if surname and name and patronymic:
+                        base.add(surname, name, patronymic)
+                    else:
+                        print('имя введено некорректно\n')
+
                 elif n == 2:
-                    surname = input('введите фамилию: ')
-                    name = input('введите имя: ')
-                    patronymic = input('введите отчество: ')
-                    base.print_id_via_name(surname, name, patronymic)
+                    surname = input('введите фамилию: ').replace(' ', '')
+                    name = input('введите имя: ').replace(' ', '')
+                    patronymic = input('введите отчество: ').replace(' ', '')
+                    if surname and name and patronymic:
+                        base.print_id_via_name(surname, name, patronymic)
+                    else:
+                        print('имя введено некорректно\n')
+
                 elif n == 3:
-                    id_ = int(input('введите id: '))
+                    try:
+                        id_ = int(input('введите id: '))
+                    except:
+                        print('неправильно введено id\n')
+                        continue
                     base.print_id(id_)
+
                 elif n == 4:
-                    id_ = int(input('введите id: '))
+                    try:
+                        id_ = int(input('введите id: '))
+                    except:
+                        print('неправильно введено id\n')
+                        continue
                     base.remove(id_)
+
                 elif n == 5:
-                    id_ = int(input('введите id: '))
+                    try:
+                        id_ = int(input('введите id: '))
+                    except:
+                        print('неправильно введено id\n')
+                        continue
                     print('введите измененные данные')
-                    surname = input('введите фамилию: ')
-                    name = input('введите имя: ')
-                    patronymic = input('введите отчество: ')
-                    base.edit(id_, surname, name, patronymic)
+                    surname = input('введите фамилию: ').replace(' ', '')
+                    name = input('введите имя: ').replace(' ', '')
+                    patronymic = input('введите отчество: ').replace(' ', '')
+                    if surname and name and patronymic:
+                        base.edit(id_, surname, name, patronymic)
+                    else:
+                        print('имя введено некорректно\n')
+
                 elif n == 6:
                     base.print_table()
+
                 elif n == 7:
                     base.save()
+
                 elif n == 8:
                     base.back_up()
+
                 elif n == 0:
                     break
                 else:
-                    print('неизвестная команда')
+                    print('неизвестная команда\n')
         elif n == 0:
             break
         else:
-            print('неизвестная команда')
+            print('неизвестная команда\n')
