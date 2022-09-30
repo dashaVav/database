@@ -246,6 +246,10 @@ class Database:
         os.mkdir(self.ver + '\\' + str(self.version))
         copy_tree(self.ver + '\\' + str(self.version - 1), self.ver + '\\' + str(self.version))
         self.change_version()
+        os.remove(self.ver + '\\' + 'version.txt')
+        f = open(self.ver + '\\' + 'version.txt', 'a+')
+        f.write(str(self.version))
+        f.close()
 
     def back_up(self):
         if self.version - 1 >= 0:
